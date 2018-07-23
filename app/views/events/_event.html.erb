@@ -1,0 +1,51 @@
+<div class="event">
+  <div class="w3-container w3-card w3-white w3-round w3-margin" style="padding-bottom: 10px"><br>
+    <div class="logo" ></div>
+    <% case event.event_type %>
+    <% when "game" %>
+      <h4><%= Game.find(event.idx).user.name %></h4>
+      <hr class="w3-clear">
+      <p> played a game and scored
+        <%= Game.find(event.idx).score %> at
+        <%= Game.find(event.idx).course.name %>!</p>
+
+    <% when "user" %>
+      <h4><%= User.find(event.idx).name %></h4>
+      <hr class="w3-clear">
+      <p> just signed up at ChipAdvisor!</p>
+
+    <% when "course" %>
+      <h4><%= Course.find(event.idx).name %></h4>
+      <hr class="w3-clear">
+      <p>A new course was added to the site! Checkout
+        <%= Course.find(event.idx).name %>!</p>
+
+      <% when "review" %>
+      <h4><%= Review.find(event.idx).user.name %> </h4>
+      <hr class="w3-clear">
+      <p> reviewed <%= Review.find(event.idx).course.name %>
+        and said: <i><%= Review.find(event.idx).comment %></i></p>
+
+    <% end %>
+
+    <small><%=event.created_at.to_formatted_s(:short)%></small>
+    <div class="w3-row-padding" style="margin:0 -16px">
+
+      <%= link_to like_event_path(event.id), class: 'like-btn', method: :put, remote: :true do %>
+        <!--
+          <% if current_user.liked? event %>
+              <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom">
+            <i class="fa fa-thumbs-up" id="unlike" style="color: greenyellow"></i> Like</button>
+          <% else %>
+              <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom">
+            <i class="fa fa-thumbs-up" id="like" style="color: white"></i> Like</button>
+          <% end %>
+        -->
+        <button type="button" class="btn btn-primary" style="background-color: #4CAF50"> <span class="sr-only; fa fa-thumbs-up"> Like</span>
+          <span class="badge badge-light; likes-count" id="event-<%= event.id %>">
+            <%= event.get_upvotes.size %></span>
+        </button>
+      <% end %>
+    </div>
+  </div>
+</div>

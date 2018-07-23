@@ -1,0 +1,125 @@
+<head>
+  <script>
+      $(function() {
+          $('a[href*=#]:not([href=#])').click(function() {
+              if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                  var target = $(this.hash);
+                  target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                  if (target.length) {
+                      $('html,body').animate({
+                          scrollTop: target.offset().top
+                      }, 1800);
+                      return false;
+                  }
+              }
+          });
+      });
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC:400,700" rel="stylesheet">
+  <!--<link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet">-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-green.css">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+
+</head>
+<div style="position: -webkit-sticky; position: sticky; top: 0; z-index: 1">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand"  style="letter-spacing: 2px;font-size: 2em; font-family: 'Tajawal', serif; color: white; float: left;
+        padding-top: 4px; padding-right: 40px; padding-left: 15px">Chipadvisor</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav" style="margin-right: 0">
+        <li class="nav-item"><a href="#section1">Home</a></li>
+        <li class="nav-item"><a href="#section2">About</a></li>
+        <li class="nav-item"><a href="#section3">Community</a></li>
+        <% if user_signed_in? && current_user.id == 1 %>
+          <li class="nav-item"><a href="#section4">Admin</a></li>
+        <% end %>
+        <% if user_signed_in? %>
+          <li class="nav-item"><%= link_to 'My Profile', new_user_session_path%></li>
+        <% else %>
+          <li class="nav-item"><%= link_to 'Login', new_user_session_path%></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="logo"></div>
+  </nav>
+</div>
+
+<div id="section1" class="sunsetBackground">
+  <div class="chip">
+    CHIPADVISOR </div>
+  <h3 style="letter-spacing: 4px; text-align: center; font-size: 2em; font-family: 'Tajawal', serif; color: white;">
+    <!-- took out padding-top: 200px -->
+    A NEW PARADIGM IN GOLF SOCIALIZATION</h3>
+</div>
+<div class="parallax">
+
+  <div id="section2">
+    <!--<h1 style="letter-spacing: 2px; font-size: 4em; font-family: 'Playfair Display SC', serif; color: white">ABOUT US</h1>-->
+    <div class="card">
+      <div class="container">
+        <h4 style="font-family: 'Playfair Display SC'; font-size: 4em;"><b>ABOUT US</b></h4>
+        <p>Something about what Chipadvisor is and maybe what users can expect.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div id="section3" class="holeBackground">-->
+<div id="section3" style="background: radial-gradient(lightslategrey, black, black);">
+  <h1 style="letter-spacing: 2px; font-size: 4em; font-family: 'Playfair Display SC', serif; color: white">Community</h1>
+
+  <!-- CAROUSEL -->
+  <!-- MAYBE SEE IF WE CAN ROTATE USER IMAGES -->
+  <div class="container" style="padding-left: 15%; padding-right: 15%">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="d-block w-100" src="<%= image_url('golfball_on_tee.jpg') %>" alt="First slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="<%= image_url('father-son.jpg') %>" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="<%= image_url('golfbag.jpg') %>" alt="Third slide">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END CAROUSEL -->
+  <br />
+  <div style="text-align: center">
+    <%= link_to 'Sign Up Today', new_user_registration_path, class: "btn btn-secondary btn-lg"%>
+  </div>
+</div>
+<% if user_signed_in? && current_user.id == 1 %>
+  <div id="section4" class="courseBackground" style="text-align: center">
+    <h1 style="letter-spacing: 2px; font-size: 4em; font-family: 'Playfair Display SC', serif; color: black">ADMIN</h1>
+    <%#= link_to 'Main', page_path('main') %>
+    <%#= link_to 'User View', page_path('userview') %>
+    <%= link_to 'Courses', courses_path, class: "btn btn-secondary btn-lg" %>
+    <!-- I THINK THIS IS OUR MAIN ADMIN FUNCTION -->
+    <%= link_to 'Add Courses', new_course_path, class: "btn btn-secondary btn-lg" %>
+    <%= link_to 'Users', users_path, class: "btn btn-secondary btn-lg" %>
+    <%= link_to 'Games', games_path, class: "btn btn-secondary btn-lg" %>
+    <%#= link_to 'About', page_path('about') %>
+    <%#= link_to 'Sample Userview', test_sampleuserview_path %>
+  </div>
+<% end %>
+</body>

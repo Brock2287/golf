@@ -1,0 +1,206 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-green.css">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+  <style>
+    .fakeimg {
+      height: 150px;
+      background: #aaa;
+      background-color: transparent;
+    }
+  </style>
+</head>
+<body>
+<div style="position: -webkit-sticky; position: sticky; top: 0; z-index: 1">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand"  style="letter-spacing: 2px;font-size: 2em; font-family: 'Tajawal', serif; color: white; float: left;
+        padding-top: 10px; padding-right: 40px; padding-left: 15px">Chipadvisor</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav" style="margin-right: 0">
+        <li class="nav-item">
+          <a <%= link_to 'Home', welcome_index_path %></a>
+        </li>
+        <li class="nav-item">
+          <a <%= link_to 'Courses', courses_path('index') %></a>
+        </li>
+        <li class="nav-item">
+          <a <%= link_to('Users', users_path) %></a>
+        </li>
+        <% if user_signed_in? %>
+          <li class="nav-item"><a <%= link_to('Add Game', new_game_path) %></a></li>
+          <li class="nav-item"><a <%= link_to('Users', users_path) %></a></li>
+          <li class="nav-item"><a <%= link_to('Edit', edit_user_registration_path) %></a></li>
+          <li class="nav-item"><a <%= link_to 'Logout', destroy_user_session_path, method: :delete %></a></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="logo"></div>
+  </nav>
+</div>
+
+
+<div class="container" style="margin-top:30px; margin-left: 0">
+  <div class="row">
+
+    <div class="col-sm-4">
+      <!-- USER IMAGE GOES HERE -->
+      <img src=<%=image_url("hole.jpg") %> class="img-fluid" alt="Responsive image">
+      <h2><%= current_user.name %></h2>
+      <div class="fakeimg">
+      <p><i class="fa fa-at fa-fw w3-margin-right w3-text-theme">
+      </i><%= current_user.email %></p>
+      <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme">
+      </i><%= current_user.city %>, <%= current_user.state %></p>
+      <p><i class="fa fa-address-book fa-fw w3-margin-right w3-text-theme">
+      </i> <%= current_user.bio %></p>
+    </div>
+
+
+      <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">
+        <i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Recent Scores</button>
+      <div id="Demo1" class="w3-hide w3-container">
+        <table>
+          <thead>
+          <tr>
+            <th>Course</th>
+            <th>Score</th>
+            <th colspan="3"></th>
+          </tr>
+          </thead>
+          <% n = 0 %>
+          <% current_average = 0.00 %>
+          <% @games.each do |game| %>
+            <% n += 1 %>
+            <% score = game.score * 1.00%>
+            <% if n <= 1 %>
+              <% new_average = game.score * 1.00%>
+            <% end %>
+            <% if n > 1 %>
+              <% new_average = (current_average * (n-1)/n + score/n) * 1.00 %>
+            <% end %>
+            <% current_average = new_average %>
+          <% end %>
+          <tbody>
+          <% i = 0 %>
+          <% @games.each do |game|%>
+            <% if i < 5%>
+              <tr>
+                <td><%= game.course.name %></td>
+                <td><%= game.score %></td>
+              </tr>
+              </tbody>
+              <% i += 1 %>
+            <% end %>
+          <% end %>
+          </table>
+      </div>
+      <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align">
+        <i class="	fa fa-line-chart fa-fw w3-margin-right"></i> Current Average</button>
+      <div id="Demo2" class="w3-hide w3-container">
+        <h3>Current Average: <%= current_average.round(2) %></h3>
+      </div>
+      <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align">
+        <i class="fa fa-share-alt fa-fw w3-margin-right"></i> Share </button>
+      <div id="Demo3" class="w3-hide w3-container">
+        <p>possible edit or sharing feature</p>
+      </div>
+    </div>
+
+    <div class="w3-col m7">
+
+
+      <!-- EVENTS -->
+
+      <% if @events.empty? %>
+        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+          <div class="logo"></div>
+          <p>NO Recent Activity</p>
+      <% else @events.reverse_each do |event| %>
+          <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+            <div class="logo"></div>
+            <% case event.event_type %>
+            <% when "game" %>
+              <h4><%= Game.find(event.idx).user.name %></h4>
+              <hr class="w3-clear">
+              <p> played a game and scored
+                <%= Game.find(event.idx).score %> at
+                <%= Game.find(event.idx).course.name %>!</p>
+
+            <% when "user" %>
+              <h4><%= User.find(event.idx).name %></h4>
+              <hr class="w3-clear">
+              <p> just signed up at ChipAdvisor!</p>
+
+            <% when "course" %>
+              <h4><%= Course.find(event.idx).name %></h4>
+              <hr class="w3-clear">
+              <p>A new course was added to the site! Checkout
+                <%= Course.find(event.idx).name %>!</p>
+            <% end %>
+            <small><%=event.created_at.to_formatted_s(:short)%></small>
+            <div class="w3-row-padding" style="margin:0 -16px">
+            </div>
+
+            <%= link_to like_event_path(event.id), class: 'like-btn', method: :put, remote: :true do %>
+<!--
+              <% if current_user.liked? event %>
+                <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom">
+                  <i class="fa fa-thumbs-up" id="unlike" style="color: greenyellow"></i> Like</button>
+              <% else %>
+                <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom">
+                  <i class="fa fa-thumbs-up" id="like" style="color: white"></i> Like</button>
+              <% end %>
+-->
+              <button type="button" class="btn btn-primary" style="background-color: #4CAF50"> <span class="sr-only; fa fa-thumbs-up"> Like</span>
+                <span class="badge badge-light; likes-count" id="event-<%= event.id %>">
+                  <%= event.get_upvotes.size %></span>
+              </button>
+            <% end %>
+            <p> </p>
+          </div>
+        <% end %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    // Accordion
+    function myFunction(id) {
+        var x = document.getElementById(id);
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+            x.previousElementSibling.className += " w3-theme-d1";
+        } else {
+            x.className = x.className.replace("w3-show", "");
+            x.previousElementSibling.className =
+                x.previousElementSibling.className.replace(" w3-theme-d1", "");
+        }
+    }
+
+    // Used to toggle the menu on smaller screens when clicking on the menu button
+    function openNav() {
+        var x = document.getElementById("navDemo");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+</script>
+</body>

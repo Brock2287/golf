@@ -1,0 +1,86 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-green.css">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body style="margin: 0%" class="fringeBackground">
+
+<!--<h1 style="letter-spacing: 2px;font-size: 9em; font-family: 'Playfair Display SC', serif; color: white;">Courses</h1>
+<!-- Courses Table -->
+<div class="card">
+  <div class="container" style="padding-bottom: 20%; text-align: center">
+    <h4 style="font-family: 'Playfair Display SC'; font-size: 4em"><b>Courses</b></h4>
+
+<!-- NEEDS ALIGNED -->
+    <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Course</th>
+        <th>Location</th>
+        <th>Difficulty</th><!-- WE COULD GET RID OF THIS AND JUST KEEP RATING -->
+        <th>Rating</th>
+        <!--<th>Extras</th>-->
+      </tr>
+      </thead>
+      <tbody>
+    <% @courses.reverse_each do |course| %>
+      <tr>
+        <!--<td scope="row" style="font-family: 'Tajawal'; font-size: 1.5em"><%#= course.name %></td>-->
+        <td scope="row" style="font-family: 'Tajawal'; font-size: 1.5em"><%= link_to course.name, course %></td>
+        <td style="font-family: 'Tajawal'; font-size: 1.5em"><%= course.city %>, <%= course.state %></td>
+        <td style="font-family: 'Tajawal'; font-size: 1.5em"><%= course.difficulty %></td>
+
+
+        <% n = 0 %>
+        <% current_total = 0.00 %>
+        <% new_average = 0.00 %>
+       <% @reviews.each do |review| %>
+
+         <% if review.course_id.equal?(course.id) %>
+
+              <% n += 1 %>
+          <% total_rating = review.rating * 1.00%>
+
+              <%current_total = current_total + total_rating %>
+                      <% new_average = (current_total)/n * 1.00 %>
+            <%# end %>
+             <% end %>
+          <% end %>
+        <td style="font-family: 'Tajawal'; font-size: 1.5em">Current Average: <%= new_average.round(2) %>  <div class="star-rating" data-score= <%=new_average %> ></div></td>
+
+        <tbody>
+        <!--<td style="font-family: 'Tajawal'; font-size: 1.5em"><%#= link_to 'More info', course %>-->
+            <%#= link_to 'Edit', edit_course_path(course) %>
+            <%#= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+        <% end %>
+      </tbody>
+    </table>
+        <br />
+    </div>
+    </div>
+  </div>
+<br />
+<!-- End Courses Table -->
+</body>
+
+<script>
+    $('.star-rating').raty({
+        path: '/assets/',
+        readOnly: true,
+        score: function() {
+            return $(this).attr('data-score');
+        }
+    });
+</script>

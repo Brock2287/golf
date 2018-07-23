@@ -1,0 +1,203 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-green.css">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+        integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+  <style>
+    .fakeimg {
+      height: 150px;
+      background: #aaa;
+      background-color: transparent;
+    }
+    .profile-pic {
+      position: relative;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body style="background: whitesmoke">
+<div class="container" style="margin-top:30px; margin-left: 0;">
+  <div class="row">
+
+    <div class="col-sm-4">
+      <!-- USER IMAGE GOES HERE -->
+      <div class="profile-pic">
+        <% if @user.image? %>
+          <img src=<%= @user.image %> class="img-fluid" alt="Responsive image">
+        <% else %>
+          <!-- THIS IS THE DEFAULT IMAGE FOR NOW -->
+          <img src=<%=image_url("hole.jpg") %> class="img-fluid" alt="Responsive image">
+        <% end %>
+      </div>
+      <h2><%= @user.name %></h2>
+      <div class="fakeimg">
+        <p><i class="fa fa-at fa-fw w3-margin-right w3-text-theme">
+        </i><%= @user.email %></p>
+        <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme">
+        </i><%= @user.city %>, <%= @user.state %></p>
+        <p><i class="fa fa-address-book fa-fw w3-margin-right w3-text-theme">
+        </i> <%= @user.bio %></p>
+      </div>
+
+
+      <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">
+        <i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Recent Scores</button>
+      <div id="Demo1" class="w3-hide w3-container">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Course</th>
+            <th>Score</th>
+          </tr>
+          </thead>
+          <% n = 0 %>
+          <% current_average = 0.00 %>
+          <% @games.each do |game| %>
+            <% n += 1 %>
+            <% score = game.score * 1.00%>
+            <% if n <= 1 %>
+              <% new_average = game.score * 1.00%>
+            <% end %>
+            <% if n > 1 %>
+              <% new_average = (current_average * (n-1)/n + score/n) * 1.00 %>
+            <% end %>
+            <% current_average = new_average %>
+          <% end %>
+          <tbody>
+          <% i = 0 %>
+          <% @games.each do |game|%>
+            <% if i < 5%>
+              <tr>
+                <td><%= game.course.name %></td>
+                <td><%= game.score %></td>
+              </tr>
+              </tbody>
+              <% i += 1 %>
+            <% end %>
+          <% end %>
+          </table>
+      </div>
+      <!-- I'M JUST CALLING THIS A RANK FOR NOW -->
+      <% rank = 'None' %>
+      <% if current_average > 89 %>
+        <% rank = 'Beginner' %> <!-- 90+ -->
+      <% elsif current_average > 80 && current_average < 90 %>
+        <% rank = 'Intermediate' %> <!-- 81 to 89 -->
+      <% elsif current_average > 72 && current_average < 81 %>
+        <% rank = 'Advanced' %> <!-- 73 to 80 -->
+      <% elsif current_average < 72 && current_average > 18%>
+        <% rank = 'Pro' %> <!-- 18 to 72, nobody has a sub 65 average I'm sure but just leaving this for simplicity -->
+      <% end %>
+      <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align">
+        <i class="	fa fa-line-chart fa-fw w3-margin-right"></i> Current Average</button>
+      <div id="Demo2" class="w3-hide w3-container">
+        <h3>Current Average: <%= current_average.round(2) %></h3>
+      </div>
+      <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align">
+        <i class="fas fa-caret-down fa-fw w3-margin-right"></i> Rank </button>
+      <div id="Demo3" class="w3-hide w3-container">
+        <h4>Current Rank: <%= rank %></h4>
+      </div>
+    </div>
+    <div class="w3-col m7">
+
+
+      <!-- EVENTS -->
+
+      <% if @events.empty? %>
+        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+          <div class="logo" style="padding-bottom: 25px"></div>
+          <p>NO Recent Activity</p>
+      <% else @events.reverse_each do |event| %>
+          <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+            <div class="logo"></div>
+            <% case event.event_type %>
+            <% when "game" %>
+              <h4><%= Game.find(event.idx).user.name %></h4>
+              <hr class="w3-clear">
+              <p> Played a game and scored
+                <%= Game.find(event.idx).score %> at
+                <%= Game.find(event.idx).course.name %>!</p>
+
+            <% when "user" %>
+              <h4><%= User.find(event.idx).name %></h4>
+              <hr class="w3-clear">
+              <p> Just signed up at ChipAdvisor!</p>
+
+            <% when "course" %>
+              <h4><%= Course.find(event.idx).name %></h4>
+              <hr class="w3-clear">
+              <p>A new course was added to the site! Checkout
+                <%= Course.find(event.idx).name %>!</p>
+
+            <% when "review" %>
+              <h4><%= Review.find(event.idx).user.name %></h4>
+              <hr class="w3-clear">
+              <p> <div class="star-rating" data-score= <%= Review.find(event.idx).rating %> ></div> Gave a review of
+              <%= Review.find(event.idx).course.name %>:
+              <i>"<%= Review.find(event.idx).comment %>"</i></p>
+            <% end %>
+            <small><%=event.created_at.to_formatted_s(:short)%></small>
+            <div class="w3-row-padding" style="margin:0 -16px">
+            </div>
+
+            <%= link_to like_event_path(event.id), class: 'like-btn', method: :put, remote: :true do %>
+              <!--
+              <% if current_user.liked? event %>
+                <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom">
+                  <i class="fa fa-thumbs-up" id="unlike" style="color: greenyellow"></i> Like</button>
+              <% else %>
+                <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom">
+                  <i class="fa fa-thumbs-up" id="like" style="color: white"></i> Like</button>
+              <% end %>
+-->
+              <button type="button" class="btn btn-primary" style="background-color: #4CAF50"> <span class="sr-only; fa fa-thumbs-up"> Like</span>
+                <span class="badge badge-light; likes-count" id="event-<%= event.id %>">
+                  <%= event.get_upvotes.size %></span>
+              </button>
+            <% end %>
+            <p> </p>
+          </div>
+        <% end %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    // Accordion
+    function myFunction(id) {
+        var x = document.getElementById(id);
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+            x.previousElementSibling.className += " w3-theme-d1";
+        } else {
+            x.className = x.className.replace("w3-show", "");
+            x.previousElementSibling.className =
+                x.previousElementSibling.className.replace(" w3-theme-d1", "");
+        }
+    }
+
+    // Used to toggle the menu on smaller screens when clicking on the menu button
+    function openNav() {
+        var x = document.getElementById("navDemo");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+</script>
+</body>
+</html>

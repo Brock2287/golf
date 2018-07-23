@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<%= form_with(model: game, local: true) do |form| %>
+  <% if game.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
+
+      <ul>
+      <% game.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  </div>
+<!--
+  <div class="field">
+    <%= form.collection_select :course_id, Course.all, :id, :name, prompt: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :gamedatetime %>
+    <%= form.datetime_select :gamedatetime %>
+  </div>
+
+  <div class="field">
+    <%= form.label :score %>
+    <%= form.number_field :score %>
+  </div>
+
+  -->
+  <form>
+    <fieldset disabled>
+    <div class="form-group">
+      <label for="disabledTextInput">User</label>
+      <input type="text" class="form-control" id="disabledTextInput" placeholder="<%= current_user.name %>">
+    </div>
+    </fieldset>
+    <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="courses">Select a Course</label>
+        <%= form.collection_select :course_id, Course.all, :id, :name, {prompt: true}, {class: "form-control"} %>
+    </div>
+    <div class="form-group col-md-6">
+    <label for="score">Score</label>
+    <%= form.number_field :score, class: "form-control", min: 0, value: 72 %>
+    </div>
+    </div>
+    <div class="form-group">
+      <label for="date">When Did You Play?</label>
+        <%= form.datetime_select :gamedatetime, class: "form-control", type: "datetime-local" %>
+    </div>
+
+
+  <div class="actions">
+    <%= form.submit class: "btn btn-primary"%>
+  </div>
+  </form>
+<% end %>

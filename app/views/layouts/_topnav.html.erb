@@ -1,0 +1,51 @@
+<% if user_signed_in? %>
+  <div style="position: -webkit-sticky; position: sticky; top: 0; z-index: 3">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="z-index: 3">
+    <div class="nav-item"><%= link_to 'Chipadvisor', welcome_index_path, class: "navbar-brand", style: "letter-spacing: 2px;
+            font-size: 2em; font-family: 'Tajawal',serif; color: white; float: left; " %></div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav" style="margin-right: 0">
+        <% if user_signed_in? && current_page?(root_path)%>
+          <% else %>
+        <li class="nav-item">
+          <%= link_to 'My Profile', new_user_session_path%>
+        </li>
+          <% end %>
+        <li class="nav-item">
+          <%= link_to 'Courses', courses_path %>
+        </li>
+        <li class="nav-item">
+          <%= link_to('Users', users_path) %>
+        </li>
+
+          <li class="nav-item"><a <%= link_to('Add Game', new_game_path) %></a></li>
+          <li class="nav-item"><a <%= link_to('Edit', edit_user_registration_path) %></a></li>
+          <li class="nav-item"><a <%= link_to 'Logout', destroy_user_session_path, method: :delete %></a></li>
+
+        <!--<li class="nav-item"><%= link_to 'Back', :back %></li>-->
+
+        <% if current_page?(courses_path) %>
+        <li class="nav-item"> <%= form_tag courses_path, :method => 'get' do %>
+            <%= text_field_tag :search, params[:search], class: "form-control form-control-sm", placeholder: "Search Courses..." %></li>
+            <div style="padding-bottom: 0; padding-left: 10px">
+              <%= submit_tag "Search", class: "btn btn-sm btn-outline-success my-2 my-sm-0", type: "submit"%>
+            </div>
+          <% end %>
+          <% end %>
+        <% if current_page?(users_path) %>
+          <li class="nav-item"> <%= form_tag users_path, :method => 'get' do %>
+              <%= text_field_tag :search, params[:search], class: "form-control form-control-sm", placeholder: "Search Users..." %></li>
+              <div style="padding-bottom: 0; padding-left: 10px">
+                <%= submit_tag "Search", class: "btn btn-sm btn-outline-success my-2 my-sm-0", type: "submit"%>
+              </div>
+            <% end %>
+        <% end %>
+      </ul>
+    </div>
+    <!--<div class="logo"></div>-->
+  </nav>
+</div>
+        <% end %>

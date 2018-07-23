@@ -1,0 +1,101 @@
+// Place all the styles related to the Welcome controller here.
+// They will automatically be included in application.scss.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.courseBackground{
+  background: image_url("golf-course-wallpaper-elegant.jpg");
+  background-size: cover;
+  max-width: 100%;
+}
+.sunsetBackground{
+  background: image_url("sunsetBackground.jpg");
+  margin: auto;
+  background-position:center center;
+  background-repeat:no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+.fringeBackground{
+  background: image_url("fringe.jpg");
+  background-size: cover;
+}
+.holeBackground{
+  background: image_url("hole.jpg");
+  background-size: cover;
+}
+
+.parallax {
+  background: image_url("fringe.jpg") no-repeat center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Turn off parallax scrolling for tablets and phones. Increase the pixels if needed */
+@media only screen and (max-device-width: 1366px) {
+  .parallax {
+    background-attachment: scroll;
+  }
+}
+
+.card {
+  background: white;
+  color: black;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 50%;
+  height: 50%;
+  margin-top: 5%;
+  margin-left: 25%;
+  text-align: center;
+}
+
+.card {
+  @media screen and (max-width: 600px){
+    width: 100%;
+    margin: 0;
+  }
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding-top: 3%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+#section1 {padding-top:50px;height:950px;color: #fff;}
+#section2 {padding-top:50px;height:950px;color: #fff;}
+#section3 {padding-top:70px;height:950px;color: #fff;}
+#section4 {padding-top:70px;height:950px;color: #fff;}
+#section5 {padding-top:70px;height:950px;color: #fff;}
+
+.chip {
+  letter-spacing: 2px;
+  font-size: 9em;
+  font-family: 'Playfair Display SC', serif;
+  color: white;
+  padding-top: 275px;
+  text-align: center;
+}
+.chip {
+  @media screen and (max-width: 900px){
+    letter-spacing: 2px;
+    font-size: 6em;
+    font-family: 'Playfair Display SC', serif;
+    color: white;
+    padding-top: 275px;
+    text-align: center;
+  }
+}
+.chip {
+  @media screen and (max-width: 600px){
+    letter-spacing: 2px;
+    font-size: 3.5em;
+    font-family: 'Playfair Display SC', serif;
+    color: white;
+    padding-top: 275px;
+    text-align: center;
+  }
+}

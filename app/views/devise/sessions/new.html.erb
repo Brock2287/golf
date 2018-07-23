@@ -1,0 +1,61 @@
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body style="margin: 0%" class="fringeBackground">
+
+<div style="text-align: center">
+    <!--<h1 style="letter-spacing: 2px; font-size: 4em; font-family: 'Playfair Display SC', serif; color: white">ABOUT US</h1>-->
+    <div class="card">
+      <div class="container" style="padding-bottom: 100px">
+        <h4 style="font-family: 'Playfair Display SC'; font-size: 4em"><b>LOGIN</b></h4>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <!--
+  <div class="field" style="font-family: 'Playfair Display SC'; font-size: 1.75em">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field" style="font-family: 'Playfair Display SC'; font-size: 1.75em">
+    <%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+  </div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div class="field" style="font-family: 'Tajawal'">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
+    </div>
+  <% end -%>
+
+  <div class="actions">
+    <%= f.submit "Log in" %>
+  </div>
+  -->
+          <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", type: "email", class: "form-control",
+                  id: "exampleInputEmail1", placeholder: "Enter email" %>
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <%= f.password_field :password, autocomplete: "off", type: "password", class: "form-control",
+                                   id: "exampleInputPassword1", placeholder: "Password" %>
+            </div>
+            <div class="actions">
+              <%= f.submit "Log in", class: "btn btn-primary" %>
+            </div>
+          </form>
+<% end %>
+        <div style="font-family: 'Tajawal'">
+        <%= render "devise/shared/links" %>
+          </div>
+        <%= link_to 'Home', welcome_index_path  %>
+</div>
+  </div>
+</div>
+</body>

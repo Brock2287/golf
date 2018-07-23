@@ -1,0 +1,322 @@
+
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Header/Blog Title */
+    .header {
+
+      text-align: center;
+      background: transparent;
+    }
+
+    .header h1 {
+      font-size: 50px;
+    }
+
+    /* Style the top navigation bar */
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    /* Style the topnav links */
+    .topnav a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    /* Change color on hover */
+    .topnav a:hover {
+      background-color: #ddd;
+      color: white;
+    }
+
+    /* Create two unequal columns that floats next to each other */
+    /* Left column */
+    .leftcolumn {
+      float: left;
+      width: 50%;
+      padding-left: 0px;
+    }
+
+    /* Right column */
+    .rightcolumn {
+      float: right;
+      width: 20%;
+      padding-left: 0px;
+    }
+
+    /* Fake image */
+    .fakeimg {
+      background-color: #aaa;
+      width: 100%;
+      padding: 20px;
+    }
+
+    /* Add a card effect for articles */
+    .card {
+      background-color: white;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    /* Footer
+    .footer {
+      padding: 20px;
+      text-align: center;
+      background: #ddd;
+      margin-top: 20px;
+    }
+    */
+    /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 800px) {
+      .leftcolumn, .rightcolumn {
+        width: 100%;
+        padding: 0;
+      }
+    }
+
+    /* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+    @media screen and (max-width: 400px) {
+      .topnav a {
+        float: none;
+        width: 100%;
+      }
+    }
+
+    .eventcontainer {
+      border: 2px solid #ccc;
+      background-color: #eee;
+      border-radius: 25px;
+      padding: 12px;
+      margin: 16px 0;
+    }
+
+    .eventcontainer::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    .eventcontainer img {
+      float: left;
+      margin-right: 20px;
+      border-radius: 50%;
+    }
+
+    .eventcontainer span {
+      font-size: 20px;
+      margin-right: 15px;
+    }
+
+    @media (max-width: 500px) {
+      .eventcontainer {
+        text-align: center;
+      }
+      .eventcontainer img {
+        margin: auto;
+        float: none;
+        display: block;
+      }
+    }
+    .overflow {
+      background-color: rgba(150,150,150,.5);
+      padding: 20px;
+      margin-top: 20px;
+      width: 50%;
+      height: 800px;
+      overflow: auto;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC:400,700" rel="stylesheet">
+</head>
+<body style="margin: 0%">
+<div style="position: -webkit-sticky; position: sticky; top: 0;">
+  <ul class="topnav">
+    <li style="letter-spacing: 2px;font-size: 2em; font-family: 'Tajawal', serif; color: white; float: left;
+        padding-top: 10px; padding-right: 40px; padding-left: 15px">Chipadvisor</li>
+    <li><a <%= link_to 'Home', welcome_index_path %></a></li>
+    <li><a <%= link_to 'Courses', courses_path %></a></li>
+    <li><a <%= link_to('Users', users_path) %></a></li>
+    <img> </img>
+  </ul>
+</div>
+<div class="body">
+  <div class="header">
+    <h1 style="letter-spacing: 2px;font-size: 9em; font-family: 'Playfair Display SC', serif; color: white;"> <%= @user.name %>'s Page </h1>
+    <!--
+  <p style="color: transparent"> - </p>
+</div>
+  <div style="position: -webkit-sticky; position: sticky; top: 0;">
+    <div class="topnav">
+      <a <%= link_to 'Home', welcome_index_path %></a>
+      <a <%= link_to 'Courses', courses_path %></a>
+
+      <% if user_signed_in? %>
+        <a <%= link_to('Add Game', new_game_path) %></a>
+        <a <%= link_to('Edit', edit_user_registration_path) %></a>
+        <a <%= link_to 'Logout', destroy_user_session_path, method: :delete %></a>
+      <% end %>
+      <a href="#" style="float:right">More</a>
+    </div>
+</div>
+-->
+    <div style="position: -webkit-sticky; position: sticky; top: 0px;">
+      <div class="row">
+        <div class="leftcolumn">
+          <div class="overflow">
+
+            <h2 style="color: white">Example Activity</h2>
+
+            <% if @events.empty? %>
+              <p>NO Recent Activity</p>
+
+            <% else @events.reverse_each do |event| %>
+                <p style="color: white">
+                  <div class="eventcontainer">
+                    <img style="width:25px">
+                <p style="text-align: left; font-size: 1.2em">
+              <span>
+            <% case event.event_type %>
+            <% when "game" %>
+              <%= Game.find(event.idx).user.name %> played a game and scored
+                  <%= Game.find(event.idx).score %> at
+                  <%= Game.find(event.idx).course.name %>!
+            <% when "user" %>
+              <%= User.find(event.idx).name %> just signed up at ChipAdvisor!
+            <% when "course" %>
+              A new course was added to the site! Checkout <%= Course.find(event.idx).name %>!
+            <% end %>
+          </span><br><small><%=event.created_at%></small></p>
+                </div>
+
+
+
+                </p>
+              <% end %>
+            <% end %>
+            </div>
+
+        <!--
+    <div class="card">
+      <h2>Courses</h2>
+      <h5>possibly courses nearby if we can implement gps</h5>
+      <div class="fakeimg" style="height:200px;">
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Difficulty</th>
+            <th colspan="3"></th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <% @courses.each do |course| %>
+            <tr>
+              <td><%= course.name %></td>
+              <td><%= course.description %></td>
+              <td><%= course.city %></td>
+              <td><%= course.state %></td>
+              <td><%= course.difficulty %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>-->
+      </div>
+
+      <div style="position: -webkit-sticky; position: sticky; top: -129px;">
+        <div class="rightcolumn">
+          <div class="card">
+            <h3>Highest Achievements</h3>
+            <div class="fakeimg"><p>Achievement 1</p></div>
+            <div class="fakeimg"><p>Achievement 2</p></div>
+            <div class="fakeimg"><p>Achievement 3</p></div>
+          </div>
+          <div class="card">
+            <h2>Recent Games</h2>
+            <table>
+              <thead>
+              <tr>
+                <th>User</th>
+                <th>Course</th>
+                <th>Score</th>
+                <th colspan="3"></th>
+              </tr>
+              </thead>
+
+              <!-- WE CAN TAKE THIS OUT BUT LEAVING IT FOR NOW -->
+              <% n = 0 %>
+              <% old_average = 0 %>
+              <% current_average = 0 %>
+              <% @games.each do |game| %>
+                <% n += 1 %>
+                <!-- new_average = (old_average * (n-1)/n) + (score/n) -->
+                <!-- I think we will need an average field that takes a double or float -->
+                <% score = game.score %>
+                <% if n <= 1 %>
+                  <% old_average = game.score %>
+                  <% new_average = old_average%>
+                <% end %>
+
+                <% if n > 1 %>
+                  <% new_average = old_average * (n-1)/n + score/n %>
+                <% end %>
+                <% current_average = new_average %>
+              <% end %>
+              <tbody>
+              <% i = 0 %>
+              <% @games.each do |game|%>
+                <% if i < 5%>
+                  <tr>
+                    <td><%= game.user.name %></td>
+                    <td><%= game.course.name %></td>
+                    <td><%= game.score %></td>
+                  </tr>
+                  </tbody>
+                  <% i += 1 %>
+                <% end %>
+              <% end %>
+              </table>
+            <h3>Current Average: <%= current_average %></h3>
+          </div>
+          <!--
+          <div class="card">
+            <h3>Social Media</h3>
+            <p>or some other feature</p>
+          </div>
+        </div>
+      </div>
+      </div>
+         Don't think we need a footer here
+      <div class="footer">
+        <h2>Footer</h2>
+        <p>TODO: integrate CSS or Bootstrap</p>
+      </div>
+      <h5 style="text-align: center">Chipadvisor by Andrew, Brock, and Melissa</h5>
+      -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
