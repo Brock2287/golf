@@ -47,7 +47,6 @@
     <index id="20" parent="6" name="sqlite_autoindex_ar_internal_metadata_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>key</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="21" parent="6">
@@ -201,11 +200,9 @@
     </column>
     <index id="52" parent="9" name="index_games_on_user_id">
       <ColNames>user_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <index id="53" parent="9" name="index_games_on_course_id">
       <ColNames>course_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="54" parent="9">
       <ColNames>id</ColNames>
@@ -265,7 +262,6 @@
     <index id="66" parent="11" name="sqlite_autoindex_schema_migrations_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>version</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="67" parent="11">
@@ -386,12 +382,10 @@
     </column>
     <index id="93" parent="14" name="index_users_on_email">
       <ColNames>email</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <index id="94" parent="14" name="index_users_on_reset_password_token">
       <ColNames>reset_password_token</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="95" parent="14">
@@ -444,13 +438,11 @@
       <ColNames>votable_id
 votable_type
 vote_scope</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <index id="107" parent="15" name="index_votes_on_voter_id_and_voter_type_and_vote_scope">
       <ColNames>voter_id
 voter_type
 vote_scope</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="108" parent="15">
       <ColNames>id</ColNames>
