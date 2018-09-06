@@ -1,17 +1,38 @@
-<%= form_with(model: review, local: true) do |form| %>
+<%= form_for([@course, @review]) do |form| %>
   <% if review.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(review.errors.count, "error") %> prohibited this review from being saved:</h2>
 
       <ul>
-      <% review.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% review.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
+  <div class="field">
+    <div onclick="createReviewBtn()" id="star-rating"></div>
+  </div>
+
+  <div class="field">
+    <%= form.label :comment %><br>
+    <%= form.text_area :comment %>
+  </div>
+
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit id: "createReview", disabled: true%>
   </div>
 <% end %>
+
+<script>
+    $('#star-rating').raty({
+        path: '/assets',
+        scoreName: 'review[rating'
+    });
+</script>
+<script>
+    function createReviewBtn() {
+        document.getElementById("createReview").disabled = false;
+    }
+</script>

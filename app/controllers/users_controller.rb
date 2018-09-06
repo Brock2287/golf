@@ -13,8 +13,10 @@ class UsersController < ApplicationController
   def show
     @courses = Course.all
     @games = Game.where(user_id: @user.id)
-    @events = Event.where(idx: @games.ids, event_type: ['game', 'review'])
-    #still working
+    @reviews = Review.where(user_id: @user.id)
+    tempUserGameEvents = Event.where(idx: @games.ids, event_type: 'game')
+    tempUserReviewEvents = Event.where(idx: @reviews.ids, event_type: 'review')
+    @events = tempUserGameEvents + tempUserReviewEvents
   end
 
   # GET /users/new
